@@ -1,0 +1,129 @@
+/* --- Variables y Estilos Globales (Paleta "Slate & Indigo" Moderna) --- */
+:root {
+    --bg-color: #111827;
+    --panel-bg-color-solid: #1F2937;
+    --panel-bg-color-glass: rgba(31, 41, 55, 0.85);
+    --border-color: #374151;
+    --text-color: #D1D5DB;
+    --highlight-color: #60A5FA;
+    --accent-color: #A78BFA;
+    --green-color: #4ADE80;
+    --red-color: #F87171;
+    --font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+    height: 100%;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    overflow: hidden;
+    background-color: var(--bg-color);
+    background-image: url('https://www.biu.us/sites/biu.us/files/images/Qu%C3%A9%20es%20la%20Inteligencia%20Artificial.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+}
+
+.app-container { display: grid; grid-template-columns: 280px 1fr 280px; height: 100vh; }
+
+aside, main {
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--panel-bg-color-solid);
+    @supports (backdrop-filter: blur(10px)) {
+        background-color: var(--panel-bg-color-glass);
+        backdrop-filter: blur(12px);
+    }
+}
+
+.history-panel { border-left: none; }
+header { padding: 1rem; border-bottom: 1px solid var(--border-color); background-color: rgba(17, 24, 39, 0.2); display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+h1 { color: var(--highlight-color); font-size: 1.5rem; }
+h2 { color: var(--accent-color); font-size: 1.2rem; }
+h3 { color: var(--green-color); margin-bottom: 0.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;}
+i { margin-right: 0.5rem; }
+
+/* ... (Estilos del historial, etc., sin cambios) ... */
+.history-panel header .header-buttons { display: flex; gap: 0.5rem; }
+.history-list { flex-grow: 1; overflow-y: auto; padding: 0.5rem; }
+.history-item { padding: 0.8rem 1rem; margin-bottom: 0.5rem; border-radius: 6px; cursor: pointer; transition: background-color 0.2s, color 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.history-item:hover { background-color: var(--border-color); }
+.history-item.active { background-color: var(--highlight-color); color: #111827; font-weight: bold; }
+#new-chat-btn, #clear-history-btn { background: transparent; border: 1px solid; padding: 0.3rem 0.6rem; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+#new-chat-btn { border-color: var(--green-color); color: var(--green-color); }
+#new-chat-btn:hover { background-color: var(--green-color); color: var(--bg-color); }
+#clear-history-btn { border-color: var(--red-color); color: var(--red-color); }
+#clear-history-btn:hover { background-color: var(--red-color); color: var(--bg-color); }
+
+/* --- Panel de Chat (Central) --- */
+.chat-panel { display: flex; flex-direction: column; height: 100vh; }
+.main-header { /* sin cambios */ }
+.main-header-title { text-align: center; }
+.main-header p { font-size: 0.9rem; color: var(--text-color); opacity: 0.7; }
+
+/* ============================================= */
+/*  --- CORRECCIÓN PRINCIPAL AQUÍ ---            */
+/* ============================================= */
+.chat-response {
+    flex-grow: 1;
+    padding: 1.5rem;
+    line-height: 1.7;
+    /* La línea clave: permite el scroll vertical cuando el contenido se desborda */
+    overflow-y: auto;
+}
+
+.welcome-message { text-align: center; color: var(--accent-color); font-size: 1.2rem; margin-top: 2rem; }
+.chat-input-area { padding: 1rem; border-top: 1px solid var(--border-color); background-color: rgba(17, 24, 39, 0.2); flex-shrink: 0; }
+#chat-form { display: flex; align-items: flex-end; }
+#prompt-input { flex-grow: 1; background-color: #111827; color: var(--text-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.8rem; font-family: inherit; font-size: 1rem; resize: none; max-height: 200px; overflow-y: auto; }
+#prompt-input:focus { outline: none; border-color: var(--highlight-color); box-shadow: 0 0 8px rgba(96, 165, 250, 0.5); }
+#send-btn { background-color: var(--highlight-color); color: #111827; border: none; border-radius: 8px; padding: 0.8rem 1.2rem; margin-left: 0.5rem; cursor: pointer; font-size: 1.1rem; transition: background-color 0.2s; }
+#send-btn:hover { background-color: #93C5FD; }
+#send-btn:disabled { background-color: var(--border-color); color: var(--text-color); opacity: 0.5; cursor: not-allowed; }
+.message { margin-bottom: 2rem; padding: 1rem; border-radius: 8px; }
+.user-message { background-color: rgba(96, 165, 250, 0.1); border-left: 3px solid var(--highlight-color); }
+.ai-message { background-color: rgba(167, 139, 250, 0.05); }
+.message-header { font-weight: bold; color: var(--accent-color); margin-bottom: 0.5rem; display: flex; align-items: center; }
+.message-header.user { color: var(--highlight-color); }
+.message-content p { margin-bottom: 1em; }
+.message-content ul, .message-content ol { margin-left: 1.5em; margin-bottom: 1em; }
+.message-content a { color: var(--green-color); text-decoration: none; font-weight: 500; }
+.message-content a:hover { text-decoration: underline; }
+pre[class*="language-"] { position: relative; margin: 1.5em 0 !important; border-radius: 8px !important; border: 1px solid var(--border-color); overflow: auto; background: #111827 !important; }
+.copy-btn { position: absolute; top: 0.8em; right: 0.8em; background: var(--border-color); border: none; color: var(--text-color); padding: 0.3rem 0.6rem; border-radius: 5px; cursor: pointer; opacity: 0.3; transition: opacity 0.2s; }
+pre[class*="language-"]:hover .copy-btn { opacity: 1; }
+.copy-btn:hover { background: var(--highlight-color); color: var(--bg-color); }
+
+/* ... (Resto de estilos sin cambios) ... */
+.stats-content { padding: 1.5rem; flex-grow: 1; overflow-y: auto; }
+.stats-section { margin-bottom: 2rem; }
+.stat-item { display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; }
+.stat-item span:first-child { color: var(--text-color); opacity: 0.8; }
+.stat-item span:last-child { font-weight: bold; color: var(--green-color); }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 4px; border: 2px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--highlight-color); }
+.loading-indicator { display: flex; align-items: center; justify-content: center; padding: 2rem; }
+.loading-indicator .fa-spinner { font-size: 2rem; color: var(--accent-color); }
+.mobile-only-btn { display: none; background: none; border: none; color: var(--text-color); font-size: 1.5rem; cursor: pointer; }
+.mobile-only-btn i { margin: 0; }
+.typing-indicator span { display: inline-block; width: 8px; height: 8px; margin: 0 2px; background-color: var(--accent-color); border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.8s; }
+.typing-indicator span:nth-child(3) { animation-delay: -0.4s; }
+@keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
+
+@media (max-width: 1024px) {
+    .app-container { grid-template-columns: 1fr; }
+    aside { display: none; position: absolute; top: 0; height: 100%; width: 300px; z-index: 1000; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+    .history-panel { left: 0; border-right: 1px solid var(--border-color); }
+    .stats-panel { right: 0; }
+    aside.is-visible { display: flex; }
+    main { border-left: none; }
+    .main-header .mobile-only-btn, aside header .mobile-only-btn { display: block; }
+    .main-header-title { flex-grow: 1; }
+    .history-panel .header-buttons { display: none; }
+}
